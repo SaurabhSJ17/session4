@@ -1,0 +1,151 @@
+{
+	"name": "filter_startwith_city_name",
+	"properties": {
+		"activities": [
+			{
+				"name": "start_m",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.name_list",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(toLower(item()), 'm')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "start_with_m",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "start_m",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "m",
+					"value": {
+						"value": "@activity('start_m').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "start_s",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.name_list",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(toLower(item()),'s')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "start_with_s",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "start_s",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "s",
+					"value": {
+						"value": "@activity('start_s').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "other",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.name_list",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@and(not(startswith(toLower(item()),'m' )), not(startswith(toLower(item()),'s')))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "other_var",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "other",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "other_than_m_s",
+					"value": {
+						"value": "@activity('other').output.value\r\n",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"name_list": {
+				"type": "array",
+				"defaultValue": [
+					"ram",
+					"shyam",
+					"sita",
+					"karan",
+					"madhav"
+				]
+			}
+		},
+		"variables": {
+			"m": {
+				"type": "Array"
+			},
+			"s": {
+				"type": "Array"
+			},
+			"other_than_m_s": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
