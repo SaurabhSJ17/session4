@@ -1,0 +1,166 @@
+{
+	"name": "filter_dict_city",
+	"properties": {
+		"activities": [
+			{
+				"name": "Filter_pune",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.input_dict",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(toLower(item().city),'pune')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "var_pune",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Filter_pune",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "pune",
+					"value": {
+						"value": "@activity('Filter_pune').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Filter_mum",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.input_dict",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(toLower(item().city),'mumbai')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "var_mum",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Filter_mum",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "mumbai",
+					"value": {
+						"value": "@activity('Filter_mum').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Filter_other",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.input_dict",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@and(not(equals(toLower(item().city),'mumbai')),not(equals(toLower(item().city),'mumbai')))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "var_others",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Filter_other",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "other",
+					"value": {
+						"value": "@activity('Filter_other').output.value",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"input_dict": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"id": "1",
+						"name": "Ram Patil",
+						"city": "pune"
+					},
+					{
+						"id": "2",
+						"name": "Sham Patil",
+						"city": "mumbai"
+					},
+					{
+						"id": "3",
+						"name": "Kiran Jadhav",
+						"city": "kolhapur"
+					},
+					{
+						"id": "4",
+						"name": "shubham naagar",
+						"city": "nagpur"
+					}
+				]
+			}
+		},
+		"variables": {
+			"pune": {
+				"type": "Array"
+			},
+			"mumbai": {
+				"type": "Array"
+			},
+			"other": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
