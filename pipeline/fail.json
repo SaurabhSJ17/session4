@@ -1,0 +1,67 @@
+{
+	"name": "fail",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ouput",
+					"value": {
+						"value": "@pipeline().parameters.name_list",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(toLower(pipeline().parameters.name_list),'ram')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "plz dont pass ram",
+								"errorCode": "10001"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"name_list": {
+				"type": "string",
+				"defaultValue": "ram,sita,laksham,rahul"
+			}
+		},
+		"variables": {
+			"ouput": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
