@@ -1,0 +1,130 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.info_list",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "append_id",
+								"value": {
+									"value": "@item()['id']",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Append variable2",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "append_name",
+								"value": {
+									"value": "@item()['name']",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "id",
+					"value": {
+						"value": "@variables('append_id')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "name",
+					"value": {
+						"value": "@variables('append_name')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"info_list": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"id": "1",
+						"name": "Ram Patil"
+					},
+					{
+						"id": "2",
+						"name": "Sham Patil"
+					},
+					{
+						"id": "3",
+						"name": "Kiran Jadhav"
+					}
+				]
+			}
+		},
+		"variables": {
+			"append_id": {
+				"type": "Array"
+			},
+			"append_name": {
+				"type": "Array"
+			},
+			"id": {
+				"type": "Array"
+			},
+			"name": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
