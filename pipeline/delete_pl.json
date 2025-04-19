@@ -19,10 +19,10 @@
 						"referenceName": "ds_delete",
 						"type": "DatasetReference"
 					},
-					"enableLogging": true,
+					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
-						"recursive": true,
+						"fileListPath": "sj-container/fol_12/city.txt",
 						"enablePartitionDiscovery": false
 					}
 				}
