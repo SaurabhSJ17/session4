@@ -6,8 +6,8 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"filename": {
-				"type": "string"
+			"file_name": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
@@ -15,7 +15,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "city.csv",
+				"fileName": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				},
 				"fileSystem": "sj-container"
 			},
 			"columnDelimiter": ",",
