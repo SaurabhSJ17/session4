@@ -1,0 +1,9 @@
+{
+	"name": "sj-df-85",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "db7ee5af-94e2-413f-894d-4d0c368ff984",
+		"tenantId": "abf31878-854d-45e5-aab3-7b1d9e22e181"
+	}
+}
