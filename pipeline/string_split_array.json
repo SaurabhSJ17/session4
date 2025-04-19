@@ -1,0 +1,59 @@
+{
+	"name": "string_split_array",
+	"properties": {
+		"activities": [
+			{
+				"name": "id",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "id_var",
+					"value": {
+						"value": "@split(pipeline().parameters.input,',')[0]",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "name_var",
+					"value": {
+						"value": "@split(concat(split(pipeline().parameters.input,',')[1],',', split(pipeline().parameters.input,',')[2]),',')\n",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"input": {
+				"type": "string",
+				"defaultValue": "1,Ram,Patil"
+			}
+		},
+		"variables": {
+			"id_var": {
+				"type": "String"
+			},
+			"name_var": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "split_array"
+		},
+		"annotations": []
+	}
+}
